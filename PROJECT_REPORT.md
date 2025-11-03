@@ -1351,7 +1351,7 @@ aaf5ea4 Initial commit: Add project structure and documentation
 
 **Project Completed**: November 3, 2025  
 **Repository**: https://github.com/vedant0517/weather-app  
-**Student**: Vedant Kapgate
+**Student**: Vedant Kapgate , Vibhanshu kapse , Yash Nimje , Yash Bhasakhetre
 
 ---
 
