@@ -59,8 +59,8 @@ The application covers:
 
 ---
 
-## Objectives
 
+## Objectives
 ### Primary Objectives
 1. **Develop a functional weather application** that retrieves and displays real-time weather data
 2. **Implement API integration** with proper error handling and data validation
@@ -196,29 +196,29 @@ element.addEventListener('click', handler);
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                     User Interface                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
-│  │  Search Box  │  │ Weather Info │  │   Effects    │ │
-│  └──────────────┘  └──────────────┘  └──────────────┘ │
+│                     User Interface                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │  Search Box  │  │ Weather Info │  │   Effects    │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 └─────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────┐
-│              JavaScript Application Layer                │
-│  ┌──────────────────┐  ┌──────────────────────────┐    │
-│  │  Event Handlers  │  │  Weather API Handler     │    │
-│  └──────────────────┘  └──────────────────────────┘    │
-│  ┌──────────────────┐  ┌──────────────────────────┐    │
-│  │  UI Controllers  │  │  Animation Controllers   │    │
-│  └──────────────────┘  └──────────────────────────┘    │
+│              JavaScript Application Layer               │
+│  ┌──────────────────┐  ┌──────────────────────────┐     │
+│  │  Event Handlers  │  │  Weather API Handler     │     │
+│  └──────────────────┘  └──────────────────────────┘     │
+│  ┌──────────────────┐  ┌──────────────────────────┐     │
+│  │  UI Controllers  │  │  Animation Controllers   │     │
+│  └──────────────────┘  └──────────────────────────┘     │
 └─────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────┐
-│                   External Services                      │
-│              ┌──────────────────────┐                    │
-│              │  OpenWeatherMap API  │                    │
-│              └──────────────────────┘                    │
+│                   External Services                     │
+│              ┌──────────────────────┐                   │
+│              │  OpenWeatherMap API  │                   │
+│              └──────────────────────┘                   │
 └─────────────────────────────────────────────────────────┘
 ```
 
