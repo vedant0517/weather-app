@@ -1,9 +1,18 @@
+/* ========================================
+   WEATHER APP STYLES
+   Modern glassmorphism design with animations
+   ======================================== */
+
+/* ========================================
+   GLOBAL STYLES & RESET
+   ======================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Main body styling with default gradient background */
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
@@ -13,85 +22,111 @@ body {
     padding: 20px;
     position: relative;
     overflow: hidden;
+    /* Default gradient - purple theme */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     transition: background 1s ease;
 }
 
+/* ========================================
+   DYNAMIC WEATHER BACKGROUNDS
+   Background changes based on weather condition
+   ======================================== */
+
+/* Clear day - bright blue sky */
 body.clear-day {
     background: linear-gradient(135deg, #56CCF2 0%, #2F80ED 100%);
 }
 
+/* Clear night - dark night sky */
 body.clear-night {
     background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
 }
 
+/* Cloudy - gray overcast sky */
 body.cloudy {
     background: linear-gradient(135deg, #757F9A 0%, #D7DDE8 100%);
 }
 
+/* Rainy - dark blue stormy sky */
 body.rainy {
     background: linear-gradient(135deg, #373B44 0%, #4286f4 100%);
 }
 
+/* Snowy - cold white-gray winter sky */
 body.snowy {
     background: linear-gradient(135deg, #E6DADA 0%, #274046 100%);
 }
 
+/* Stormy - very dark thunderstorm sky */
 body.stormy {
     background: linear-gradient(135deg, #232526 0%, #414345 100%);
 }
 
+/* Hazy/Misty/Foggy - muted gray */
 body.hazy {
     background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
 }
 
+/* Dusty/Sandy - desert brown tones */
 body.dusty {
     background: linear-gradient(135deg, #d4a574 0%, #8B7355 100%);
 }
 
+/* Smoky - very dark gray/black */
 body.smoky {
     background: linear-gradient(135deg, #434343 0%, #000000 100%);
 }
 
+/* ========================================
+   WEATHER EFFECT CONTAINERS
+   Fixed position containers for animations
+   ======================================== */
 .rain, .snow, .clouds {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: none; /* Don't block clicks on underlying elements */
     z-index: 1;
 }
 
+/* Individual raindrop styling */
 .raindrop {
     position: absolute;
     width: 2px;
     height: 50px;
+    /* Gradient creates a fading trail effect */
     background: linear-gradient(transparent, rgba(255, 255, 255, 0.6));
     animation: fall linear infinite;
 }
 
+/* Raindrop falling animation */
 @keyframes fall {
     to {
-        transform: translateY(100vh);
+        transform: translateY(100vh); /* Fall to bottom of viewport */
     }
 }
 
+/* Snowflake styling */
 .snowflake {
     position: absolute;
     color: white;
     font-size: 20px;
     animation: snowfall linear infinite;
-    -webkit-user-select: none;
+    -webkit-user-select: none; /* Prevent text selection */
     user-select: none;
 }
 
+/* Snowflake falling and rotating animation */
 @keyframes snowfall {
     to {
+        /* Fall down while rotating for natural snow effect */
         transform: translateY(100vh) rotate(360deg);
     }
 }
 
+/* Cloud styling with pseudo-elements for puffy shape */
 .cloud {
     position: absolute;
     background: rgba(255, 255, 255, 0.3);
@@ -99,6 +134,7 @@ body.smoky {
     animation: drift linear infinite;
 }
 
+/* Create cloud puffs with before/after pseudo-elements */
 .cloud::before, .cloud::after {
     content: '';
     position: absolute;
@@ -120,15 +156,17 @@ body.smoky {
     right: 10px;
 }
 
+/* Cloud drifting animation */
 @keyframes drift {
     from {
-        transform: translateX(-200px);
+        transform: translateX(-200px); /* Start off-screen left */
     }
     to {
-        transform: translateX(calc(100vw + 200px));
+        transform: translateX(calc(100vw + 200px)); /* End off-screen right */
     }
 }
 
+/* Lightning flash effect container */
 .lightning {
     position: fixed;
     top: 0;
@@ -138,16 +176,17 @@ body.smoky {
     background: rgba(255, 255, 255, 0.9);
     z-index: 2;
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none; /* Don't block clicks */
 }
 
 .lightning.flash {
     animation: flash 0.2s;
 }
 
+/* Quick flash animation for lightning */
 @keyframes flash {
     0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
+    50% { opacity: 1; } /* Brief flash at midpoint */
 }
 
 .haze-layer {
@@ -221,24 +260,31 @@ body.smoky {
     }
 }
 
+/* ========================================
+   MAIN CONTAINER
+   Glassmorphism card design
+   ======================================== */
 .container {
+    /* Glassmorphism effect - frosted glass appearance */
     background: rgba(255, 255, 255, 0.15);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); /* Safari support */
+    backdrop-filter: blur(20px); /* Blur background behind the card */
     border-radius: 30px;
     padding: 45px;
+    /* Layered shadows for depth */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     max-width: 480px;
     width: 100%;
-    z-index: 10;
+    z-index: 10; /* Above weather effects */
     border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.5s ease; /* Smooth entrance */
 }
 
+/* Card entrance animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px); /* Slide up effect */
     }
     to {
         opacity: 1;
@@ -246,27 +292,32 @@ body.smoky {
     }
 }
 
+/* Main heading */
 h1 {
     text-align: center;
     color: white;
     margin-bottom: 35px;
     font-size: 32px;
     font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    letter-spacing: -0.5px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Depth shadow */
+    letter-spacing: -0.5px; /* Tight letter spacing */
 }
 
+/* ========================================
+   SEARCH SECTION
+   ======================================== */
 .search-box {
     display: flex;
     gap: 12px;
     margin-bottom: 25px;
 }
 
+/* Search input field */
 input {
-    flex: 1;
+    flex: 1; /* Take remaining space */
     padding: 14px 22px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50px;
+    border-radius: 50px; /* Fully rounded corners */
     font-size: 16px;
     outline: none;
     background: rgba(255, 255, 255, 0.95);
@@ -274,15 +325,18 @@ input {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Input focus state - lift and brighten */
 input:focus {
     background: white;
     border-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
+/* Search button styling */
 button {
     padding: 14px 32px;
+    /* Semi-transparent glass button */
     background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -297,33 +351,41 @@ button {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+/* Button hover state - lift and brighten */
 button:hover {
     background: rgba(255, 255, 255, 0.4);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Button active/clicked state */
 button:active {
     transform: translateY(-1px);
     background: rgba(255, 255, 255, 0.35);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Button focus outline for accessibility */
 button:focus {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
 }
 
+/* ========================================
+   WEATHER INFORMATION DISPLAY
+   ======================================== */
 .weather-info {
     text-align: center;
-    display: none;
+    display: none; /* Hidden by default */
     color: white;
 }
 
+/* Show weather info when active class is added */
 .weather-info.active {
     display: block;
 }
 
+/* Location text (city, country) */
 .location {
     font-size: 32px;
     font-weight: bold;
@@ -331,18 +393,22 @@ button:focus {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Current date display */
 .date {
     font-size: 16px;
     margin-bottom: 30px;
     opacity: 0.9;
 }
 
+/* Large weather emoji icon */
 .weather-icon {
     font-size: 80px;
     margin: 20px 0;
+    /* Drop shadow for emoji depth */
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
 }
 
+/* Main temperature display */
 .temperature {
     font-size: 64px;
     font-weight: bold;
@@ -350,21 +416,28 @@ button:focus {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Weather description text */
 .description {
     font-size: 24px;
-    text-transform: capitalize;
+    text-transform: capitalize; /* First letter uppercase */
     margin-bottom: 30px;
     opacity: 0.9;
 }
 
+/* ========================================
+   WEATHER DETAILS GRID
+   Additional info cards
+   ======================================== */
 .details {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
     gap: 15px;
     margin-top: 30px;
 }
 
+/* Individual detail card */
 .detail-item {
+    /* Semi-transparent glass card */
     background: rgba(255, 255, 255, 0.2);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -374,31 +447,39 @@ button:focus {
     transition: all 0.3s ease;
 }
 
+/* Hover effect - lift card */
 .detail-item:hover {
     background: rgba(255, 255, 255, 0.25);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Label for each detail (e.g., "Humidity") */
 .detail-label {
     font-size: 14px;
     margin-bottom: 5px;
     opacity: 0.8;
 }
 
+/* Value for each detail (e.g., "65%") */
 .detail-value {
     font-size: 20px;
     font-weight: bold;
 }
 
+/* ========================================
+   STATUS MESSAGES
+   Loading and error states
+   ======================================== */
 .error, .loading {
     text-align: center;
     color: white;
     margin-top: 20px;
-    display: none;
+    display: none; /* Hidden by default */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Show messages when active */
 .error.active, .loading.active {
     display: block;
 }
