@@ -1,6 +1,6 @@
 # Weather Application - Project Report
 
-**Student Name:** Vedant Kapgate  
+**Student Name:** Vedant Kapgate , Vibhanshu Kapse , Yash Nimje , Yash  Bhasakhetre
 **Project Name:** Interactive Weather Application  
 **Date:** November 3, 2025  
 **GitHub Repository:** https://github.com/vedant0517/weather-app

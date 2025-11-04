@@ -22,14 +22,35 @@
 
     <!-- Main application container -->
     <div class="container">
-        <!-- App title -->
-        <h1>🌤️ Weather App</h1>
+        <!-- App title and controls -->
+        <div class="header-section">
+            <h1>🌤️ Weather App</h1>
+            
+            <!-- Control buttons -->
+            <div class="header-controls">
+                <!-- Temperature unit toggle -->
+                <button class="control-btn" id="unitToggle" onclick="toggleUnit()" title="Toggle °C/°F">
+                    °C
+                </button>
+                
+                <!-- Refresh button -->
+                <button class="control-btn" id="refreshBtn" onclick="refreshWeather()" title="Refresh Weather">
+                    🔄
+                </button>
+            </div>
+        </div>
         
         <!-- Search section -->
         <div class="search-box">
             <input type="text" id="cityInput" placeholder="Enter city name..." />
             <button onclick="getWeatherByCity()">Search</button>
+            <button class="location-btn" onclick="getWeatherByLocation()" title="Use My Location">
+                📍
+            </button>
         </div>
+        
+        <!-- Favorite cities -->
+        <div class="favorites" id="favorites"></div>
 
         <!-- Loading indicator -->
         <div class="loading" id="loading">Loading...</div>
@@ -47,6 +68,14 @@
             <div class="weather-icon" id="weatherIcon"></div>
             <div class="temperature" id="temperature"></div>
             <div class="description" id="description"></div>
+            
+            <!-- Last updated time -->
+            <div class="last-updated" id="lastUpdated"></div>
+            
+            <!-- Add to favorites button -->
+            <button class="favorite-btn" id="favoriteBtn" onclick="toggleFavorite()">
+                ⭐ Add to Favorites
+            </button>
 
             <!-- Additional weather details grid -->
             <div class="details">

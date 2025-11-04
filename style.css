@@ -272,7 +272,7 @@ body.smoky {
     -webkit-backdrop-filter: blur(20px); /* Safari support */
     backdrop-filter: blur(20px); /* Blur background behind the card */
     border-radius: 30px;
-    padding: 30px; /* Reduced from 45px */
+    padding: 25px; /* Reduced from 30px for better fit */
     /* Layered shadows for depth */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     max-width: 480px;
@@ -296,11 +296,21 @@ body.smoky {
     }
 }
 
+/* ========================================
+   HEADER SECTION
+   ======================================== */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
 /* Main heading */
 h1 {
-    text-align: center;
     color: white;
-    margin-bottom: 20px; /* Reduced from 35px */
+    margin: 0;
     font-size: 28px; /* Reduced from 32px */
     font-weight: 700;
     /* Enhanced shadow for better visibility against animations */
@@ -310,39 +320,110 @@ h1 {
     letter-spacing: -0.5px; /* Tight letter spacing */
 }
 
+/* Header controls container */
+.header-controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* Control buttons (unit, theme, refresh) */
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.15);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#refreshBtn {
+    display: none;
+}
+
+#refreshBtn.show {
+    display: flex;
+}
+
 /* ========================================
    SEARCH SECTION
    ======================================== */
 .search-box {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 15px; /* Reduced from 25px */
+    width: 100%;
 }
 
-/* Search input field */
+/* iOS-style search input field */
 input {
     flex: 1; /* Take remaining space */
-    padding: 14px 22px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50px; /* Fully rounded corners */
+    padding: 16px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 22px; /* iOS-style rounded corners */
     font-size: 16px;
     outline: none;
-    background: rgba(255, 255, 255, 0.95);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.06),
+        0 1px 4px rgba(0, 0, 0, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-/* Input focus state - lift and brighten */
+/* iOS-style input focus state */
 input:focus {
-    background: white;
-    border-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px); /* Slight lift effect */
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 2px 12px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 0 0 4px rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px) scale(1.01);
 }
 
-/* Search button styling */
+/* Location button */
+.location-btn {
+    padding: 16px 18px !important;
+    min-width: 56px !important;
+    flex-shrink: 0;
+}
+
+/* iOS-style search button */
 button {
-    padding: 14px 32px;
+    padding: 16px 28px;
+    min-width: auto;
+    flex-shrink: 0;
     /* Semi-transparent glass button */
     background: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
@@ -376,6 +457,51 @@ button:active {
 button:focus {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
+}
+
+/* ========================================
+   FAVORITES SECTION
+   ======================================== */
+.favorites {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    min-height: 0;
+}
+
+.favorite-city {
+    padding: 8px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.favorite-city:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.favorite-city .remove {
+    margin-left: 4px;
+    opacity: 0.7;
+    font-size: 12px;
+}
+
+.favorite-city .remove:hover {
+    opacity: 1;
 }
 
 /* ========================================
@@ -439,10 +565,48 @@ button:focus {
 .description {
     font-size: 20px; /* Reduced from 24px */
     text-transform: capitalize; /* First letter uppercase */
-    margin-bottom: 15px; /* Reduced from 30px */
+    margin-bottom: 10px; /* Reduced from 30px */
     opacity: 1; /* Changed from 0.9 for better visibility */
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.8),
                  2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Last updated time */
+.last-updated {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-bottom: 12px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Favorite button */
+.favorite-btn {
+    margin: 15px auto;
+    padding: 10px 24px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.15);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: inline-block;
+}
+
+.favorite-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.favorite-btn.favorited {
+    background: rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.5);
 }
 
 /* ========================================
@@ -513,4 +677,57 @@ button:focus {
 /* Show messages when active */
 .error.active, .loading.active {
     display: block;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 600px) {
+    .header-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .search-box {
+        flex-wrap: wrap;
+    }
+    
+    button {
+        padding: 16px 24px;
+    }
+    
+    .location-btn {
+        padding: 16px 18px !important;
+        min-width: 56px !important;
+    }
+    
+    .favorites {
+        justify-content: center;
+    }
+    
+    .details {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: 20px;
+    }
+    
+    button {
+        font-size: 14px;
+        padding: 14px 20px;
+    }
+    
+    input {
+        font-size: 14px;
+        padding: 14px 20px;
+    }
 }

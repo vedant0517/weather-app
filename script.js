@@ -3,6 +3,16 @@ const API_KEY = 'd775fcae6be7fd6bc61cc79e479cc846';
 
 // Global variables
 let lightningInterval = null; // Lightning animation interval
+let currentCity = ''; // Store current city
+let currentData = null; // Store current weather data
+let isCelsius = true; // Temperature unit
+let lastUpdated = null; // Last update time
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', () => {
+    loadSettings();
+    loadFavorites();
+});
 
 // Initialize city input event listener
 document.getElementById('cityInput').addEventListener('keypress', function(e) {
@@ -280,7 +290,239 @@ function displayWeather(data) {
     document.getElementById('windSpeed').textContent = `${data.wind.speed} m/s`;
     document.getElementById('pressure').textContent = `${data.main.pressure} hPa`;
 
+    // Store current data
+    currentData = data;
+    currentCity = data.name;
+    lastUpdated = new Date();
+    updateLastUpdatedTime();
+    
+    // Show refresh button
+    document.getElementById('refreshBtn').classList.add('show');
+    
+    // Update favorite button state
+    updateFavoriteButton();
+    
+    // Convert temperature if needed
+    if (!isCelsius) {
+        convertTemperatureDisplay();
+    }
+
     // Hide loading and show weather info
     loading.classList.remove('active');
     weatherInfo.classList.add('active');
 }
+
+/**
+ * Get weather data using geolocation
+ */
+async function getWeatherByLocation() {
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+        return;
+    }
+
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    const weatherInfo = document.getElementById('weatherInfo');
+
+    loading.classList.add('active');
+    error.classList.remove('active');
+    weatherInfo.classList.remove('active');
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const { latitude, longitude } = position.coords;
+            
+            try {
+                const response = await fetch(
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+                );
+
+                if (!response.ok) {
+                    throw new Error('Location not found');
+                }
+
+                const data = await response.json();
+                document.getElementById('cityInput').value = data.name;
+                displayWeather(data);
+            } catch (err) {
+                loading.classList.remove('active');
+                error.classList.add('active');
+            }
+        },
+        (err) => {
+            loading.classList.remove('active');
+            alert('Unable to retrieve your location');
+        }
+    );
+}
+
+/**
+ * Refresh weather data for current city
+ */
+function refreshWeather() {
+    if (currentCity) {
+        document.getElementById('cityInput').value = currentCity;
+        getWeatherByCity();
+    }
+}
+
+/**
+ * Toggle temperature unit between Celsius and Fahrenheit
+ */
+function toggleUnit() {
+    isCelsius = !isCelsius;
+    document.getElementById('unitToggle').textContent = isCelsius ? '°C' : '°F';
+    localStorage.setItem('temperatureUnit', isCelsius ? 'celsius' : 'fahrenheit');
+    
+    if (currentData) {
+        convertTemperatureDisplay();
+    }
+}
+
+/**
+ * Convert and update temperature display
+ */
+function convertTemperatureDisplay() {
+    if (!currentData) return;
+    
+    const temp = isCelsius 
+        ? currentData.main.temp 
+        : (currentData.main.temp * 9/5) + 32;
+    
+    const feelsLike = isCelsius 
+        ? currentData.main.feels_like 
+        : (currentData.main.feels_like * 9/5) + 32;
+    
+    const unit = isCelsius ? '°C' : '°F';
+    
+    document.getElementById('temperature').textContent = `${Math.round(temp)}${unit}`;
+    document.getElementById('feelsLike').textContent = `${Math.round(feelsLike)}${unit}`;
+}
+
+/**
+ * Update last updated time display
+ */
+function updateLastUpdatedTime() {
+    if (!lastUpdated) return;
+    
+    const now = new Date();
+    const diff = Math.floor((now - lastUpdated) / 1000); // seconds
+    
+    let timeText = '';
+    if (diff < 60) {
+        timeText = 'Just now';
+    } else if (diff < 3600) {
+        const minutes = Math.floor(diff / 60);
+        timeText = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else {
+        timeText = lastUpdated.toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: '2-digit'
+        });
+    }
+    
+    document.getElementById('lastUpdated').textContent = `Last updated: ${timeText}`;
+}
+
+/**
+ * Load favorites from localStorage
+ */
+function loadFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+    displayFavorites(favorites);
+}
+
+/**
+ * Display favorite cities
+ */
+function displayFavorites(favorites) {
+    const container = document.getElementById('favorites');
+    container.innerHTML = '';
+    
+    favorites.forEach(city => {
+        const btn = document.createElement('div');
+        btn.className = 'favorite-city';
+        btn.innerHTML = `
+            <span onclick="loadFavoriteCity('${city}')">${city}</span>
+            <span class="remove" onclick="removeFavorite('${city}')">✕</span>
+        `;
+        container.appendChild(btn);
+    });
+}
+
+/**
+ * Load weather for a favorite city
+ */
+function loadFavoriteCity(city) {
+    document.getElementById('cityInput').value = city;
+    getWeatherByCity();
+}
+
+/**
+ * Toggle favorite status for current city
+ */
+function toggleFavorite() {
+    if (!currentCity) return;
+    
+    let favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+    const index = favorites.indexOf(currentCity);
+    
+    if (index === -1) {
+        if (favorites.length >= 5) {
+            alert('Maximum 5 favorite cities allowed');
+            return;
+        }
+        favorites.push(currentCity);
+    } else {
+        favorites.splice(index, 1);
+    }
+    
+    localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+    displayFavorites(favorites);
+    updateFavoriteButton();
+}
+
+/**
+ * Remove a city from favorites
+ */
+function removeFavorite(city) {
+    let favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+    favorites = favorites.filter(c => c !== city);
+    localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+    displayFavorites(favorites);
+    updateFavoriteButton();
+}
+
+/**
+ * Update favorite button appearance
+ */
+function updateFavoriteButton() {
+    if (!currentCity) return;
+    
+    const favorites = JSON.parse(localStorage.getItem('favoriteCities') || '[]');
+    const btn = document.getElementById('favoriteBtn');
+    const isFavorite = favorites.includes(currentCity);
+    
+    btn.textContent = isFavorite ? '⭐ Remove from Favorites' : '⭐ Add to Favorites';
+    btn.classList.toggle('favorited', isFavorite);
+}
+
+/**
+ * Load saved settings from localStorage
+ */
+function loadSettings() {
+    // Load temperature unit
+    const unit = localStorage.getItem('temperatureUnit');
+    if (unit === 'fahrenheit') {
+        isCelsius = false;
+        document.getElementById('unitToggle').textContent = '°F';
+    }
+}
+
+// Update last updated time every minute
+setInterval(() => {
+    if (lastUpdated) {
+        updateLastUpdatedTime();
+    }
+}, 60000);
